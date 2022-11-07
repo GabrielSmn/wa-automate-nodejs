@@ -16,14 +16,15 @@ wa.create({
 }).then((client) => start(client));
 
 function safeGuard(number){
-    let limpo = number.replace("@c.us","")
-    if(limpo<12){
-        console.log("limpando : ",limpo)
-        const nXnf = number.slice(0,4)+'9'+number.slice(4,0)
+    let corrigir = number.replace("@c.us","")
+    console.log(corrigir.length)
+    if(corrigir.length<13){
+        console.log("limpando : ",corrigir)
+        const nXnf = number.slice(0,4)+'9'+number.slice(4,)
         return nXnf
     }
-    console.log("tava limpo já", limpo)
-    return limpo
+    console.log("tava limpo já", corrigir)
+    return corrigir
 }
 
 
@@ -50,20 +51,19 @@ function start(client) {
         console.log("response",response.data)
         if (response.data.name) {
           await client.sendText(
-            safeGuard(message.from)+"@c.us",
+            message.from,
             `Boa ${response.data.name}, inscrição confirmada!`
           );
 
           config.url = 'https://etb-api-prod.herokuapp.com/get-user-by-phone'
-
           axios(config)
           .then(function (response) {
             console.log(JSON.stringify(response.data.phone));
           })
           .catch(async function (error) {
             await client.sendText(
-                safeGuard(message.from)+"@c.us",
-                `Sai pra lá, aqui você não se inscreveu não!`
+                safeGuard(message.from,
+                `Sai pra lá, aqui você não se inscreveu não!`)
               );
             console.log("Deu erro essa bagaça :",error);
           });
@@ -71,7 +71,7 @@ function start(client) {
 
 
         } else {
-            await client.sendText(safeGuard(message.from)+'@c.us','Sai pra lá, vc não tem cadastro aqui não.')
+            await client.sendText(message.from,'Sai pra lá, vc não tem cadastro aqui não.')
           console.log(
             'Não é quem eu estou esperando, response :',
             JSON.stringify(response.data)

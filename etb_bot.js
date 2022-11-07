@@ -19,8 +19,9 @@ function safeGuard(number) {
   let corrigir = number.replace('@c.us', '');
   console.log(corrigir.length);
   if (corrigir.length < 13) {
-    console.log('limpando : ', corrigir);
-    const nXnf = number.slice(0, 4) + '9' + number.slice(4);
+    const nXnf = corrigir.slice(0, 4) + '9' + corrigir.slice(4);
+    console.log('limpando : ', nXnf);
+
     return nXnf;
   }
   console.log('tava limpo já', corrigir);
@@ -28,7 +29,9 @@ function safeGuard(number) {
 }
 
 function start(client) {
+
   client.onMessage(async (message) => {
+
     var data = JSON.stringify({
       phone: safeGuard(message.from),
       token:
@@ -47,33 +50,24 @@ function start(client) {
     axios(config)
       .then(async function (response) {
         console.log('response', response.data);
-        if (response.data.name) {
+        if (response.data.name && response.data.bot_called === false) {
           await client.sendText(
             message.from,
             `Boa ${response.data.name}, inscrição confirmada!`
           );
-
-          config.url = 'https://etb-api-prod.herokuapp.com/get-user-by-phone';
-          axios(config)
-            .then(function (response) {
-              console.log(JSON.stringify(response.data.phone));
-            })
-            .catch(async function (error) {
-              await client.sendText(
-                  message.from,
-                  `Sai pra lá, tem nada seu aqui não!`
-              );
-              console.log('Deu erro essa bagaça :', error);
-            });
         } else {
-          await client.sendText(
-            message.from,
-            'Sai pra lá, vc não tem cadastro aqui não.'
-          );
-          console.log(
-            'Não é quem eu estou esperando, response :',
-            JSON.stringify(response.data)
-          );
+            if(response.data.bot_called){
+                await client.sendText(
+                    message.from,
+                    `... ${response.data.name}, sua inscrição foi confirmada já`
+                  );
+            }else{
+                await client.sendText(
+                    message.from,
+                    `Não encontrei a sua inscrição, se precisa de ajuda chame no link: wa.me/5511982871523 que já já te respondem.`
+                  );
+            }
+            
         }
       })
       .catch(function (error) {

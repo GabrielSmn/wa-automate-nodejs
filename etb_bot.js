@@ -15,32 +15,23 @@ wa.create({
   qrTimeout: 0, //0 means it will wait forever for you to scan the qr code
 }).then((client) => start(client));
 
-function safeGuard(number) {
-  let corrigir = number.replace('@c.us', '');
-  console.log(corrigir.length);
-  if (corrigir.length < 13) {
-    const nXnf = corrigir.slice(0, 4) + '9' + corrigir.slice(4);
-    console.log('limpando : ', nXnf);
-
-    return nXnf;
-  }
-  console.log('tava limpo já', corrigir);
-  return corrigir;
-}
 
 function start(client) {
 
   client.onMessage(async (message) => {
 
+    let signup_id_test = message.body.split("matricula:")[1]
+
     var data = JSON.stringify({
-      phone: safeGuard(message.from),
+
+      signup_id: signup_id_test,
       token:
-        'AAAAC3NzaC1lZDI1NTE5AAAAIADyn0X4gYpS+GAlPXG4tjXBGduGXRD50KVIQu3hmbjG',
+        'AAAAC3NzaC1lZDI1NTE5AAAAIE8qgN4QjdQDawOfLiAU+ucNfUCa0HNLMz0T999',
     });
 
     var config = {
       method: 'post',
-      url: 'https://etb-api-prod.herokuapp.com/get-user-by-phone',
+      url: 'https://etb-api-prod.herokuapp.com/get-user-by-signupid',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -49,29 +40,42 @@ function start(client) {
 
     axios(config)
       .then(async function (response) {
-        console.log('response', response.data);
-        if (response.data.name && response.data.bot_called === false) {
+        console.log('response', response.data.name);
+        console.log('response2', response.data.signup_confirmed)
+
+
+        if (response.data.name && response.data.signup_confirmed === false) {
+          console.log("confirmei !")
           await client.sendText(
             message.from,
-            `Boa ${response.data.name}, inscrição confirmada!`
+            `Boa *${String(response.data.name).split(" ")[0]}*, inscrição foi confirmada!\nSalve nosso número na sua agenda, avisaremos por aqui a data das próximas atividades\n\nForte abraço e fé na luta!
+            `
           );
+          config.url = 'https://etb-api-prod.herokuapp.com/user-confirmed-signup'
+          axios(config)
+          .then(async function (response) {console.log("Usuário setado no banco :", response)})
+          .catch(function (error) {
+            console.log(error);})
+            
+
         } else {
-            if(response.data.bot_called){
+            if(response.data.signup_confirmed){
+              console.log("confirmada: ",response.data)
                 await client.sendText(
                     message.from,
-                    `... ${response.data.name}, sua inscrição foi confirmada já`
+                    `... *${response.data.name}*, sua inscrição está confirmada.`
                   );
             }else{
                 await client.sendText(
                     message.from,
-                    `Não encontrei a sua inscrição, se precisa de ajuda chame no link: wa.me/5511982871523 que já já te respondem.`
+                    `Oi ${message.notifyName} \n\nNão encontramos a sua inscrição em nosso banco de dados.\n\nCaso queira se inscrever no curso vá para: https://trabalhodebase.com/brigadas`
                   );
             }
             
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log("ultimo erro  ", error);
       });
   });
 }

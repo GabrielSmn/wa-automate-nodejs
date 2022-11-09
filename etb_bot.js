@@ -20,13 +20,13 @@ function start(client) {
 
   client.onMessage(async (message) => {
 
-    let signup_id_test = message.body.split("matricula:")[1]
+    var signup_id_test = message.body.split("matricula: ")[1]
 
     var data = JSON.stringify({
 
       signup_id: signup_id_test,
       token:
-        'AAAAC3NzaC1lZDI1NTE5AAAAIE8qgN4QjdQDawOfLiAU+ucNfUCa0HNLMz0T999',
+        ',
     });
 
     var config = {
@@ -48,9 +48,15 @@ function start(client) {
           console.log("confirmei !")
           await client.sendText(
             message.from,
-            `Boa *${String(response.data.name).split(" ")[0]}*, inscrição foi confirmada!\nSalve nosso número na sua agenda, avisaremos por aqui a data das próximas atividades\n\nForte abraço e fé na luta!
-            `
+            `Boa *${String(response.data.name).split(" ")[0]}*,sua inscrição foi confirmada! 😀 \n\n*Salve esse contato na sua agenda*, avisaremos por aqui a data das próximas atividades.\n\nForte abraço e *fé na luta!*`
           );
+
+          await client.sendText(
+            '120363043585898519@g.us',
+            `INSCRIÇÃO CONFIRMADA : \n*${String(response.data.name)}*\nwa.me/${message.from.replace("@c.us","")}\n${signup_id_test}`
+          );
+          
+
           config.url = 'https://etb-api-prod.herokuapp.com/user-confirmed-signup'
           axios(config)
           .then(async function (response) {console.log("Usuário setado no banco :", response)})
@@ -59,23 +65,30 @@ function start(client) {
             
 
         } else {
-            if(response.data.signup_confirmed){
+            if(response.data.signup_confirmed===true){
               console.log("confirmada: ",response.data)
                 await client.sendText(
                     message.from,
-                    `... *${response.data.name}*, sua inscrição está confirmada.`
+                    `... *${response.data.name}*, sua inscrição está confirmada 😀`
                   );
             }else{
                 await client.sendText(
                     message.from,
-                    `Oi ${message.notifyName} \n\nNão encontramos a sua inscrição em nosso banco de dados.\n\nCaso queira se inscrever no curso vá para: https://trabalhodebase.com/brigadas`
+                    `Oi ${message.notifyName} \n\nNão encontramos a sua inscrição em nosso banco de dados ☹️\n\nCaso *queira se inscrever* vá para: \n\nhttps://trabalhodebase.com/brigadas`
                   );
             }
             
         }
       })
-      .catch(function (error) {
-        console.log("ultimo erro  ", error);
+      .catch(async function (error) {
+
+    console.log("[ ERRO ] deu um erro, notificar admin")
+        
+    await client.sendText(
+      '120363026466753921@g.us',
+      `${error} \n*contato :*\nwa.me/${message.from.replace("@c.us","")}\n *mensagem* :\n${message.body}\n`)
+   
+       
       });
   });
 }

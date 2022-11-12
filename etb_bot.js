@@ -26,7 +26,6 @@ function start(client) {
 
       signup_id: signup_id_test,
       token:
-        ',
     });
 
     var config = {
@@ -48,12 +47,12 @@ function start(client) {
           console.log("confirmei !")
           await client.sendText(
             message.from,
-            `Boa *${String(response.data.name).split(" ")[0]}*,sua inscrição foi confirmada! 😀 \n\n*Salve esse contato na sua agenda*, avisaremos por aqui a data das próximas atividades.\n\nForte abraço e *fé na luta!*`
+            `😀 Boa *${String(response.data.name).split(" ")[0]}*, você está inscrit! \n\n*Salve esse contato na sua agenda*, avisaremos por aqui a data das próximas atividades.\n\nForte abraço e *fé na luta!*`
           );
 
           await client.sendText(
             '120363043585898519@g.us',
-            `INSCRIÇÃO CONFIRMADA : \n*${String(response.data.name)}*\nwa.me/${message.from.replace("@c.us","")}\n${signup_id_test}`
+            `INSCRIÇÃO CONFIRMADA : \n*${String(response.data.name)}*\n\n${signup_id_test}`
           );
           
 

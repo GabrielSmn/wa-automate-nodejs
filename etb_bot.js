@@ -1,6 +1,5 @@
 const wa = require('@open-wa/wa-automate');
 var axios = require('axios');
-const { RestTypeNodeParser } = require('ts-json-schema-generator');
 
 wa.create({
   sessionId: 'ATENDENTE_ETB',
@@ -20,8 +19,19 @@ async function start(client) {
   let erros = 0;
 
   console.log('.....inicializando');
-  await client.getAllChatsWithMessages().then((response) =>
+
+  var contador = 0;
+
+  var pendentes = 0;
+
+  var dialogosTotal = [];
+
+  await client.getAllChats().then((response) =>
     response.map((chat) => {
+
+     
+      dialogosTotal.push(chat.id.slice(2,).replace("@c.us",""))
+      console.log(dialogosTotal.length)
       try {
         client
           .getMessageById(chat.lastReceivedKey._serialized)
@@ -50,8 +60,6 @@ async function start(client) {
                   console.log('response', response.data.name);
                   console.log('response2', response.data.signup_confirmed);
 
-                  contador = contador + 1;
-
                   if (
                     response.data.name &&
                     response.data.signup_confirmed === false
@@ -78,21 +86,21 @@ async function start(client) {
                         console.log('Usuário setado no banco :', response);
                       })
                       .catch(function (error) {
-                        console.log(error);
+                        //console.log(error);
                       });
                   } else {
                     console.log('usuário já cadastrado');
                   }
                 })
                 .catch(async function (error) {
-                  console.log('[ ERRO ] deu um erro, notificar admin');
+                  //console.log(`[ ERRO ] ${error} deu um erro, notificar admin`);
 
                   await client.sendText(
                     '120363026466753921@g.us',
-                    `${error} \n*contato :*\nwa.me/${chat.id.replace(
+                    `\n*contato :*\nwa.me/${chat.id.replace(
                       '@c.us',
                       ''
-                    )}\n Mensagem do sistem a re-check`
+                    )}\n Mensagem do sistema re-check`
                   );
                 });
             }
@@ -103,14 +111,24 @@ async function start(client) {
     })
   );
 
-  await client.sendText(
-    '120363026466753921@g.us',
-    `Bot reinicializado`
-  );
+  axios
+    .get('https://data.heroku.com/dataclips/bxfkmoxnipngdkrwlzweqfimbcox.json')
+    .then(async (response) => {
+      contador = response.data.values[0][1];
+      pendentes = response.data.values[0][0];
+      console.log('contador inicializado :', response.data.values);
 
-  console.log('fim da inicialização');
+    await client.sendText('120363026466753921@g.us', `Bot reinicializado\n*Status de inscrições*\n
+    Inscrições feitas : ${pendentes}\n
+    Inscrições confirmadas: ${contador}\n
+    Total de diálogos ${dialogosTotal.length}`);
+  
+    console.log('\n\n----------------------- fim da inicialização --------------------------');
 
-  var contador = 237;
+  });
+    
+
+    
 
   client.onMessage(async (message) => {
     var signup_id_test = message.body.split('matricula: ')[1];
@@ -131,8 +149,8 @@ async function start(client) {
 
     axios(config)
       .then(async function (response) {
-        console.log('response', response.data.name);
-        console.log('response2', response.data.signup_confirmed);
+        console.log('Nome :', response.data.name);
+        console.log('Usuário novo? :', !response.data.signup_confirmed);
 
         contador = contador + 1;
 
@@ -149,17 +167,17 @@ async function start(client) {
             '120363043585898519@g.us',
             `INSCRIÇÃO CONFIRMADA: \n*${String(
               response.data.name.trimEnd()
-            )}*\n${signup_id_test}`
+            )}*\n${signup_id_test} - ${contador}`
           );
 
           config.url =
             'https://etb-api-prod.herokuapp.com/user-confirmed-signup';
           axios(config)
             .then(async function (response) {
-              console.log('Usuário setado no banco :', response);
+              console.log('Usuário setado no banco :');
             })
             .catch(function (error) {
-              console.log(error);
+              //console.log(error);
             });
         } else {
           if (response.data.signup_confirmed === true) {
@@ -177,15 +195,17 @@ async function start(client) {
         }
       })
       .catch(async function (error) {
-        console.log('[ ERRO ] deu um erro, notificar admin');
+        if (message.body) {
+          //console.log(`[ ERRO ] ${error}deu um erro, notificar admin`);
 
-        await client.sendText(
-          '120363026466753921@g.us',
-          `${error} \n*contato :*\nwa.me/${message.from.replace(
-            '@c.us',
-            ''
-          )}\n *mensagem* :\n${message.body}\n`
-        );
+          await client.sendText(
+            '120363026466753921@g.us',
+            `NÃO CONFORMIDADE\n\n*contato :*\n wa.me/${message.from.replace(
+              '@c.us',
+              ''
+            )}\n *mensagem* :\n${message.body}\n`
+          );
+        }
       });
   });
 }

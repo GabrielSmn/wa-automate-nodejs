@@ -70,7 +70,7 @@ BaseCollection<K, V\>.constructor
 
 #### Inherited from
 
-BaseCollection.\_\_@toStringTag@1002
+BaseCollection.\_\_@toStringTag@1097
 
 ___
 
@@ -100,17 +100,7 @@ ___
 
 #### Inherited from
 
-BaseCollection.\_\_@species@1841
-
-___
-
-### default
-
-▪ `Static` `Readonly` **default**: typeof `Collection`
-
-#### Inherited from
-
-BaseCollection.default
+BaseCollection.\_\_@species@2118
 
 ## Methods
 
@@ -126,7 +116,7 @@ Returns an iterable of entries in the map.
 
 #### Inherited from
 
-BaseCollection.\_\_@iterator@56
+BaseCollection.\_\_@iterator@47
 
 ___
 
@@ -1375,6 +1365,62 @@ BaseCollection.mapValues
 
 ___
 
+### merge
+
+▸ **merge**<`T`, `R`\>(`other`, `whenInSelf`, `whenInOther`, `whenInBoth`): `Collection`<`K`, `R`\>
+
+Merges two Collections together into a new Collection.
+
+**`Example`**
+
+```ts
+// Sums up the entries in two collections.
+coll.merge(
+ other,
+ x => ({ keep: true, value: x }),
+ y => ({ keep: true, value: y }),
+ (x, y) => ({ keep: true, value: x + y }),
+);
+```
+
+**`Example`**
+
+```ts
+// Intersects two collections in a left-biased manner.
+coll.merge(
+ other,
+ x => ({ keep: false }),
+ y => ({ keep: false }),
+ (x, _) => ({ keep: true, value: x }),
+);
+```
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `T` |
+| `R` |
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `other` | `ReadonlyCollection`<`K`, `T`\> | The other Collection to merge with |
+| `whenInSelf` | (`value`: `V`, `key`: `K`) => `Keep`<`R`\> | Function getting the result if the entry only exists in this Collection |
+| `whenInOther` | (`valueOther`: `T`, `key`: `K`) => `Keep`<`R`\> | Function getting the result if the entry only exists in the other Collection |
+| `whenInBoth` | (`value`: `V`, `valueOther`: `T`, `key`: `K`) => `Keep`<`R`\> | Function getting the result if the entry exists in both Collections |
+
+#### Returns
+
+`Collection`<`K`, `R`\>
+
+#### Inherited from
+
+BaseCollection.merge
+
+___
+
 ### partition
 
 ▸ **partition**<`K2`\>(`fn`): [`Collection`<`K2`, `V`\>, `Collection`<`Exclude`<`K`, `K2`\>, `V`\>]
@@ -1901,3 +1947,40 @@ Returns an iterable of values in the map
 #### Inherited from
 
 BaseCollection.values
+
+___
+
+### combineEntries
+
+▸ `Static` **combineEntries**<`K`, `V`\>(`entries`, `combine`): `Collection`<`K`, `V`\>
+
+Creates a Collection from a list of entries.
+
+**`Example`**
+
+```ts
+Collection.combineEntries([["a", 1], ["b", 2], ["a", 2]], (x, y) => x + y);
+// returns Collection { "a" => 3, "b" => 2 }
+```
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `K` |
+| `V` |
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `entries` | `Iterable`<[`K`, `V`]\> | The list of entries |
+| `combine` | (`firstValue`: `V`, `secondValue`: `V`, `key`: `K`) => `V` | Function to combine an existing entry with a new one |
+
+#### Returns
+
+`Collection`<`K`, `V`\>
+
+#### Inherited from
+
+BaseCollection.combineEntries

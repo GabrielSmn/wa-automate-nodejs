@@ -60,6 +60,30 @@ Re-exports [BaseChat](/api/interfaces/api_model_chat.BaseChat.md)
 
 ___
 
+### BizCategory
+
+Re-exports [BizCategory](/api/interfaces/api_model_contact.BizCategory.md)
+
+___
+
+### BizProfileOptions
+
+Re-exports [BizProfileOptions](/api/interfaces/api_model_contact.BizProfileOptions.md)
+
+___
+
+### BusinessHours
+
+Re-exports [BusinessHours](/api/interfaces/api_model_contact.BusinessHours.md)
+
+___
+
+### BusinessProfile
+
+Re-exports [BusinessProfile](/api/interfaces/api_model_contact.BusinessProfile.md)
+
+___
+
 ### CLOUD\_PROVIDERS
 
 Re-exports [CLOUD_PROVIDERS](/api/enums/api_model_config.CLOUD_PROVIDERS.md)
@@ -240,6 +264,12 @@ Re-exports [GroupChatServer](/api/types/api_model_aliases.GroupChatServer.md)
 
 ___
 
+### GroupId
+
+Re-exports [GroupId](/api/types/api_model_aliases.GroupId.md)
+
+___
+
 ### Label
 
 Re-exports [Label](/api/interfaces/api_model_label.Label.md)
@@ -336,6 +366,24 @@ Re-exports [PageEvaluationTimeout](/api/classes/api_model_errors.PageEvaluationT
 
 ___
 
+### PollData
+
+Re-exports [PollData](/api/interfaces/api_model_message.PollData.md)
+
+___
+
+### PollOption
+
+Re-exports [PollOption](/api/interfaces/api_model_message.PollOption.md)
+
+___
+
+### PollVote
+
+Re-exports [PollVote](/api/interfaces/api_model_message.PollVote.md)
+
+___
+
 ### Product
 
 Re-exports [Product](/api/interfaces/api_model_product.Product.md)
@@ -381,6 +429,12 @@ ___
 ### ReactionRecord
 
 Re-exports [ReactionRecord](/api/types/api_model_reactions.ReactionRecord.md)
+
+___
+
+### ReactionSender
+
+Re-exports [ReactionSender](/api/interfaces/api_model_message.ReactionSender.md)
 
 ___
 

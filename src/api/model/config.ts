@@ -358,6 +358,12 @@ export interface ConfigObject {
      */
     qrTimeout?: number,
     /**
+     * This determines how long the process should wait for a session to load fully before continuing the launch process.
+     * Set this to 0 to wait forever. Default is 5 seconds.
+     * @default 5
+     */
+    waitForRipeSessionTimeout?: number,
+    /**
      * Some features, like video upload, do not work without a chrome instance. Set this to the path of your chrome instance or you can use `useChrome:true` to automatically detect a chrome instance for you. Please note, this overrides `useChrome`.
      */
     executablePath?: string,
@@ -408,6 +414,11 @@ export interface ConfigObject {
     * @default `60`
     */
     authTimeout?: number;
+    /**
+     * phoneIsOutOfReach check timeout
+     * @default `60`
+     */
+    oorTimeout?: number,
     /**
      * Setting this to `true` will kill the whole process when the client is disconnected from the page or if the browser is closed. 
      * @default `false`
@@ -534,6 +545,12 @@ export interface ConfigObject {
      */
     killProcessOnTimeout?: boolean;
     /**
+     * If set to true, the system will kill the whole node process when a "TEMPORARY BAN" is detected. This is useful to prevent hanging processes.
+     * It is `true` by default because it is a very rare event and it is better to kill the process than to leave it hanging.
+     * @default `true`
+     */
+    killProcessOnBan?: boolean;
+    /**
      * Setting this to true will bypass web security. DO NOT DO THIS IF YOU DO NOT HAVE TO. CORS issue may arise when using a proxy.
      * @default `false`
      */
@@ -598,6 +615,10 @@ export interface ConfigObject {
      * @default `false`
      */
     logDebugInfoAsObject?: boolean;
+    /**
+     * This will make the library log all internal wa web events to the console. This is useful for debugging purposes. DO NOT TURN THIS ON UNLESS ASKED TO.
+     */
+    logInternalEvents?: boolean;
     /**
      * Kill the client when a logout is detected
      * @default `false`

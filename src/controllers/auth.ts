@@ -59,10 +59,10 @@ const isTosBlocked  = (waPage: Page): Observable<string | boolean> => {
   );
 };
 
-export const waitForRipeSession = async (waPage: Page): Promise<boolean> => {
+export const waitForRipeSession = async (waPage: Page, waitForRipeSessionTimeout ?: number): Promise<boolean> => {
   try {
     await waPage.waitForFunction(`window.isRipeSession()`,
-      { timeout: 0, polling: 'mutation' });
+      { timeout: (waitForRipeSessionTimeout ?? 5) * 1000, polling: 1000 });
     return true;
   } catch (error) {
     return false;
@@ -213,7 +213,7 @@ export class QRManager {
         }
         if (!gotResult && (qrData === 'QR_CODE_SUCCESS' || qrData === md)) {
           gotResult = true;
-          spinner?.succeed(qrData === md ? "Multi device support for this project is EXPERIMENTAL. Some things may not work...." : "QR code scanned. Loading session...")
+          spinner?.succeed("QR code scanned. Loading session...")
           return resolve(await isInsideChat(waPage).toPromise())
         }
         if (!gotResult) this.grabAndEmit(qrData, waPage, config, spinner);

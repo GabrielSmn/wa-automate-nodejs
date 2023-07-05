@@ -411,6 +411,19 @@ Kill the client when a logout is detected
 
 ___
 
+### killProcessOnBan
+
+• `Optional` **killProcessOnBan**: `boolean`
+
+If set to true, the system will kill the whole node process when a "TEMPORARY BAN" is detected. This is useful to prevent hanging processes.
+It is `true` by default because it is a very rare event and it is better to kill the process than to leave it hanging.
+
+**`Default`**
+
+`true`
+
+___
+
 ### killProcessOnBrowserClose
 
 • `Optional` **killProcessOnBrowserClose**: `boolean`
@@ -524,6 +537,14 @@ false
 
 ___
 
+### logInternalEvents
+
+• `Optional` **logInternalEvents**: `boolean`
+
+This will make the library log all internal wa web events to the console. This is useful for debugging purposes. DO NOT TURN THIS ON UNLESS ASKED TO.
+
+___
+
 ### logging
 
 • `Optional` **logging**: [`ConfigLogTransport`](/api/types/logging_logging.ConfigLogTransport.md)[]
@@ -590,6 +611,18 @@ What to do when an error is detected on a client method.
 **`Default`**
 
 `OnError.NOTHING`
+
+___
+
+### oorTimeout
+
+• `Optional` **oorTimeout**: `number`
+
+phoneIsOutOfReach check timeout
+
+**`Default`**
+
+`60`
 
 ___
 
@@ -1011,3 +1044,16 @@ ___
 
 wait for a valid headful session. Not required in recent versions.
 default: `true`
+
+___
+
+### waitForRipeSessionTimeout
+
+• `Optional` **waitForRipeSessionTimeout**: `number`
+
+This determines how long the process should wait for a session to load fully before continuing the launch process.
+Set this to 0 to wait forever. Default is 5 seconds.
+
+**`Default`**
+
+5

@@ -17,6 +17,12 @@ custom_edit_url: null
 Use this link to get the [correct license](https://gum.co/open-wa?wanted=true&tier=Insiders%20Program).
 :::
 
+:::danger
+
+Buttons are broken for the foreseeable future. Please DO NOT get a license solely for access to buttons. They are no longer reliable due to recent changes at WA.
+
+:::
+
 Use a raw payload within your open-wa session
 
 #### Parameters
@@ -29,6 +35,24 @@ Use a raw payload within your open-wa session
 #### Returns
 
 `Promise`<[`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
+
+___
+
+### acceptGroupJoinRequest
+
+▸ **acceptGroupJoinRequest**(`messageId`): `Promise`<`boolean`\>
+
+Accepts a request from a recipient to join a group. Takes the message ID of the request message.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `messageId` | [`MessageId`](/api/types/api_model_aliases.MessageId.md) |
+
+#### Returns
+
+`Promise`<`boolean`\>
 
 ___
 
@@ -75,6 +99,27 @@ If the host account is not an administrator, returns `INSUFFICIENT_PERMISSIONS`
 #### Returns
 
 `Promise`<`boolean`\>
+
+___
+
+### approveGroupJoinRequest
+
+▸ **approveGroupJoinRequest**(`groupChatId`, `contactId`): `Promise`<`string` \| `boolean`\>
+
+Approves a group join request
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `groupChatId` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) | The group chat id |
+| `contactId` | [`ContactId`](/api/types/api_model_aliases.ContactId.md) | The contact id of the person who is requesting to join the group |
+
+#### Returns
+
+`Promise`<`string` \| `boolean`\>
+
+`Promise<boolean>`
 
 ___
 
@@ -268,6 +313,32 @@ Unblock contact
 
 ___
 
+### createCommunity <div class="label license insiders">insiders</div>
+
+▸ **createCommunity**(`communityName`, `communitySubject`, `icon`, `existingGroups?`, `newGroups?`): `Promise`<\`${number}@g.us\`\>
+
+:::license May require insiders license
+Use this link to get the [correct license](https://gum.co/open-wa?wanted=true&tier=Insiders%20Program).
+:::
+
+Create a new community
+
+#### Parameters
+
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `communityName` | `string` | `undefined` | The community name |
+| `communitySubject` | `string` | `undefined` | - |
+| `icon` | [`DataURL`](/api/types/api_model_aliases.DataURL.md) | `undefined` | DataURL of a 1:1 ratio jpeg for the community icon |
+| `existingGroups` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md)[] | `[]` | An array of existing group IDs, that are not already part of a community, to add to this new community. |
+| `newGroups?` | [`NewCommunityGroup`](/api/interfaces/api_model_group_metadata.NewCommunityGroup.md)[] | `undefined` | An array of new group objects that |
+
+#### Returns
+
+`Promise`<\`${number}@g.us\`\>
+
+___
+
 ### createGroup
 
 ▸ **createGroup**(`groupName`, `contacts`): `Promise`<[`GroupChatCreationResponse`](/api/interfaces/api_model_chat.GroupChatCreationResponse.md)\>
@@ -432,7 +503,25 @@ ___
 
 ▸ **deleteAllStatus**(): `Promise`<`boolean`\>
 
-Deletes all your existing statuses.
+**`Deprecated`**
+
+Alias for deleteStory
+
+#### Returns
+
+`Promise`<`boolean`\>
+
+___
+
+### deleteAllStories <div class="label license restricted">restricted</div>
+
+▸ **deleteAllStories**(): `Promise`<`boolean`\>
+
+:::license May require restricted license
+Use this link to get the [correct license](https://gum.co/open-wa?wanted=true&tier=1%20Restricted%20License).
+:::
+
+Deletes all your existing stories.
 
 #### Returns
 
@@ -506,13 +595,37 @@ ___
 
 ▸ **deleteStatus**(`statusesToDelete`): `Promise`<`boolean`\>
 
-Consumes a list of id strings of statuses to delete.
+**`Deprecated`**
+
+Alias for deleteStory
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `statusesToDelete` | `string` \| `string`[] |
+
+#### Returns
+
+`Promise`<`boolean`\>
+
+___
+
+### deleteStory <div class="label license restricted">restricted</div>
+
+▸ **deleteStory**(`statusesToDelete`): `Promise`<`boolean`\>
+
+:::license May require restricted license
+Use this link to get the [correct license](https://gum.co/open-wa?wanted=true&tier=1%20Restricted%20License).
+:::
+
+Consumes a list of id strings of stories to delete.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `statusesToDelete` | `string` \| `string`[] | string [] \| stringan array of ids of statuses to delete. |
+| `statusesToDelete` | `string` \| `string`[] | string [] \| string an array of ids of stories to delete. |
 
 #### Returns
 
@@ -619,6 +732,27 @@ Download profile pics from the message object.
 
 ___
 
+### editMessage
+
+▸ **editMessage**(`messageId`, `text`): `Promise`<`boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
+
+NOTE: This is experimental, most accounts do not have access to this feature in their apps.
+
+Edit an existing message
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `messageId` | [`MessageId`](/api/types/api_model_aliases.MessageId.md) | The message ID to edit |
+| `text` | [`Content`](/api/types/api_model_aliases.Content.md) | The new text content |
+
+#### Returns
+
+`Promise`<`boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
+
+___
+
 ### editProduct <div class="label license insiders">insiders</div>
 
 ▸ **editProduct**(`productId`, `name?`, `price?`, `currency?`, `images?`, `description?`, `url?`, `internalId?`, `isHidden?`): `Promise`<[`Product`](/api/interfaces/api_model_product.Product.md)\>
@@ -710,9 +844,15 @@ ___
 
 ### forceUpdateConnectionState
 
-▸ **forceUpdateConnectionState**(): `Promise`<[`STATE`](/api/enums/api_model.STATE.md)\>
+▸ **forceUpdateConnectionState**(`killBeforeReconnect?`): `Promise`<[`STATE`](/api/enums/api_model.STATE.md)\>
 
-Forces the session to update the connection state. This will take a few seconds to determine the 'correct' state.
+Forces the session to update the connection state.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `killBeforeReconnect?` | `boolean` |
 
 #### Returns
 
@@ -832,6 +972,20 @@ Please use `getAllUnreadMessages` instead of this to see all messages indicated 
 `Promise`<[`Chat`](/api/types/api_model_chat.Chat.md)[]\>
 
 array of [Chat]
+
+___
+
+### getAllCommunities
+
+▸ **getAllCommunities**(): `Promise`<\`${number}@g.us\`[]\>
+
+Retrieve all commmunity Ids
+
+#### Returns
+
+`Promise`<\`${number}@g.us\`[]\>
+
+array of group ids
 
 ___
 
@@ -973,6 +1127,26 @@ retrieves an array of IDs of accounts blocked by the host account.
 
 ___
 
+### getBusinessProfile
+
+▸ **getBusinessProfile**(`id`): `Promise`<[`BusinessProfile`](/api/interfaces/api_model_contact.BusinessProfile.md)\>
+
+Get the business info of a given contact id
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `id` | [`ContactId`](/api/types/api_model_aliases.ContactId.md) | id of business profile (i.e the number with @c.us) |
+
+#### Returns
+
+`Promise`<[`BusinessProfile`](/api/interfaces/api_model_contact.BusinessProfile.md)\>
+
+None
+
+___
+
 ### getBusinessProfilesProducts
 
 ▸ **getBusinessProfilesProducts**(`id`): `Promise`<`any`\>
@@ -983,7 +1157,7 @@ Find any product listings of the given number. Use this to query a catalog
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `id` | [`ContactId`](/api/types/api_model_aliases.ContactId.md) | id of buseinss profile (i.e the number with @c.us) |
+| `id` | [`ContactId`](/api/types/api_model_aliases.ContactId.md) | id of business profile (i.e the number with @c.us) |
 
 #### Returns
 
@@ -1096,6 +1270,96 @@ title:string
 
 ___
 
+### getCommunityAdminIds
+
+▸ **getCommunityAdminIds**(`communityId`): `Promise`<{ `admins`: [`ContactId`](/api/types/api_model_aliases.ContactId.md)[] ; `id`: [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) ; `subgroup`: `boolean`  }[]\>
+
+Retrieves community admin Ids
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `communityId` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) | community id |
+
+#### Returns
+
+`Promise`<{ `admins`: [`ContactId`](/api/types/api_model_aliases.ContactId.md)[] ; `id`: [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) ; `subgroup`: `boolean`  }[]\>
+
+___
+
+### getCommunityAdmins
+
+▸ **getCommunityAdmins**(`communityId`): `Promise`<{ `admins`: [`Contact`](/api/interfaces/api_model_contact.Contact.md)[] ; `id`: [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) ; `subgroup`: `boolean`  }[]\>
+
+Retrieves community admins as Contact objects
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `communityId` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) | community id |
+
+#### Returns
+
+`Promise`<{ `admins`: [`Contact`](/api/interfaces/api_model_contact.Contact.md)[] ; `id`: [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) ; `subgroup`: `boolean`  }[]\>
+
+___
+
+### getCommunityInfo
+
+▸ **getCommunityInfo**(`communityId`): `Promise`<[`GroupMetadata`](/api/interfaces/api_model_group_metadata.GroupMetadata.md) & { `subGroups`: [`GroupMetadata`](/api/interfaces/api_model_group_metadata.GroupMetadata.md)[]  }\>
+
+Returns the community metadata. Like group metadata but with a `subGroups` property which is the group metadata of the community subgroups.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `communityId` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) | community id |
+
+#### Returns
+
+`Promise`<[`GroupMetadata`](/api/interfaces/api_model_group_metadata.GroupMetadata.md) & { `subGroups`: [`GroupMetadata`](/api/interfaces/api_model_group_metadata.GroupMetadata.md)[]  }\>
+
+___
+
+### getCommunityParticipantIds
+
+▸ **getCommunityParticipantIds**(`communityId`): `Promise`<{ `id`: [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) ; `participants`: [`ContactId`](/api/types/api_model_aliases.ContactId.md)[] ; `subgroup`: `boolean`  }[]\>
+
+Retrieves community members Ids
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `communityId` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) | community id |
+
+#### Returns
+
+`Promise`<{ `id`: [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) ; `participants`: [`ContactId`](/api/types/api_model_aliases.ContactId.md)[] ; `subgroup`: `boolean`  }[]\>
+
+___
+
+### getCommunityParticipants
+
+▸ **getCommunityParticipants**(`communityId`): `Promise`<{ `id`: [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) ; `participants`: [`Contact`](/api/interfaces/api_model_contact.Contact.md)[] ; `subgroup`: `boolean`  }[]\>
+
+Retrieves community members as Contact objects
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `communityId` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) | community id |
+
+#### Returns
+
+`Promise`<{ `id`: [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) ; `participants`: [`Contact`](/api/interfaces/api_model_contact.Contact.md)[] ; `subgroup`: `boolean`  }[]\>
+
+___
+
 ### getConfig
 
 ▸ **getConfig**(): [`ConfigObject`](/api/interfaces/api_model_config.ConfigObject.md)
@@ -1190,6 +1454,25 @@ String useragent of wa-web session
 
 ___
 
+### getGptArray
+
+▸ **getGptArray**(`chatId`, `last?`): `Promise`<{ `content`: `string` ; `role`: ``"user"`` \| ``"assistant"``  }[]\>
+
+Returns a properly formatted array of messages from to send to the openai api
+
+#### Parameters
+
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `chatId` | [`ChatId`](/api/types/api_model_aliases.ChatId.md) | `undefined` | - |
+| `last` | `number` | `10` | The amount of previous messages to retrieve. Defaults to 10 |
+
+#### Returns
+
+`Promise`<{ `content`: `string` ; `role`: ``"user"`` \| ``"assistant"``  }[]\>
+
+___
+
 ### getGroupAdmins
 
 ▸ **getGroupAdmins**(`groupId`): `Promise`<[`ContactId`](/api/types/api_model_aliases.ContactId.md)[]\>
@@ -1205,6 +1488,26 @@ Get Admins of a Group
 #### Returns
 
 `Promise`<[`ContactId`](/api/types/api_model_aliases.ContactId.md)[]\>
+
+___
+
+### getGroupApprovalRequests
+
+▸ **getGroupApprovalRequests**(`groupChatId`): `Promise`<[`ContactId`](/api/types/api_model_aliases.ContactId.md)[]\>
+
+Gets the contact IDs of members requesting approval to join the group
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `groupChatId` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) |
+
+#### Returns
+
+`Promise`<[`ContactId`](/api/types/api_model_aliases.ContactId.md)[]\>
+
+`Promise<ContactId[]>`
 
 ___
 
@@ -1458,6 +1761,8 @@ If you have set `onAnyMessage` or `onMessage` with the second parameter (PQueue 
 | `onChatState` | `default`<`default`, `DefaultAddOptions`\> |
 | `onContactAdded` | `default`<`default`, `DefaultAddOptions`\> |
 | `onGlobalParticipantsChanged` | `default`<`default`, `DefaultAddOptions`\> |
+| `onGroupApprovalRequest` | `default`<`default`, `DefaultAddOptions`\> |
+| `onGroupChange` | `default`<`default`, `DefaultAddOptions`\> |
 | `onIncomingCall` | `default`<`default`, `DefaultAddOptions`\> |
 | `onLabel` | `default`<`default`, `DefaultAddOptions`\> |
 | `onLogout` | `default`<`default`, `DefaultAddOptions`\> |
@@ -1466,6 +1771,7 @@ If you have set `onAnyMessage` or `onMessage` with the second parameter (PQueue 
 | `onNewProduct` | `default`<`default`, `DefaultAddOptions`\> |
 | `onOrder` | `default`<`default`, `DefaultAddOptions`\> |
 | `onPlugged` | `default`<`default`, `DefaultAddOptions`\> |
+| `onPollVote` | `default`<`default`, `DefaultAddOptions`\> |
 | `onReaction` | `default`<`default`, `DefaultAddOptions`\> |
 | `onRemovedFromGroup` | `default`<`default`, `DefaultAddOptions`\> |
 | `onStateChanged` | `default`<`default`, `DefaultAddOptions`\> |
@@ -1570,7 +1876,25 @@ ___
 
 ▸ **getMyStatusArray**(): `Promise`<[`Message`](/api/interfaces/api_model_message.Message.md)[]\>
 
-retrieves all existing statuses.
+**`Deprecated`**
+
+Alias for deleteStory
+
+#### Returns
+
+`Promise`<[`Message`](/api/interfaces/api_model_message.Message.md)[]\>
+
+___
+
+### getMyStoryArray <div class="label license restricted">restricted</div>
+
+▸ **getMyStoryArray**(): `Promise`<[`Message`](/api/interfaces/api_model_message.Message.md)[]\>
+
+:::license May require restricted license
+Use this link to get the [correct license](https://gum.co/open-wa?wanted=true&tier=1%20Restricted%20License).
+:::
+
+Retrieves all existing stories.
 
 Only works with a Story License Key
 
@@ -1611,6 +1935,24 @@ ___
 #### Returns
 
 `Page`
+
+___
+
+### getPollData
+
+▸ **getPollData**(`messageId`): `Promise`<[`PollData`](/api/interfaces/api_model_message.PollData.md)\>
+
+Returns poll data including results and votes.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `messageId` | [`MessageId`](/api/types/api_model_aliases.MessageId.md) | The message id of the Poll |
+
+#### Returns
+
+`Promise`<[`PollData`](/api/interfaces/api_model_message.PollData.md)\>
 
 ___
 
@@ -1700,15 +2042,17 @@ ___
 
 ### getSnapshot
 
-▸ **getSnapshot**(`chatId?`): `Promise`<[`DataURL`](/api/types/api_model_aliases.DataURL.md)\>
+▸ **getSnapshot**(`chatId?`, `width?`, `height?`): `Promise`<[`DataURL`](/api/types/api_model_aliases.DataURL.md)\>
 
 Returns a PNG DataURL screenshot of the session
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `chatId?` | [`ChatId`](/api/types/api_model_aliases.ChatId.md) |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `chatId?` | [`ChatId`](/api/types/api_model_aliases.ChatId.md) | Chat ID to open before taking a snapshot |
+| `width?` | `number` | Width of the viewport for the snapshot. Height also required if you want to resize. |
+| `height?` | `number` | Height of the viewport for the snapshot. Width also required if you want to resize. |
 
 #### Returns
 
@@ -1780,9 +2124,13 @@ message object OR `false`
 
 ___
 
-### getStoryViewers
+### getStoryViewers <div class="label license restricted">restricted</div>
 
-▸ **getStoryViewers**(`id`): `Promise`<[`ContactId`](/api/types/api_model_aliases.ContactId.md)[]\>
+▸ **getStoryViewers**(`id?`): `Promise`<[`ContactId`](/api/types/api_model_aliases.ContactId.md)[] \| { `[k: MessageId]`: [`ContactId`](/api/types/api_model_aliases.ContactId.md)[];  }\>
+
+:::license May require restricted license
+Use this link to get the [correct license](https://gum.co/open-wa?wanted=true&tier=1%20Restricted%20License).
+:::
 
 Retrieves an array of user ids that have 'read' your story.
 
@@ -1790,11 +2138,11 @@ Retrieves an array of user ids that have 'read' your story.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `id` | `string` | string The id of the story  Only works with a Story License Key |
+| `id?` | `string` | string The id of the story |
 
 #### Returns
 
-`Promise`<[`ContactId`](/api/types/api_model_aliases.ContactId.md)[]\>
+`Promise`<[`ContactId`](/api/types/api_model_aliases.ContactId.md)[] \| { `[k: MessageId]`: [`ContactId`](/api/types/api_model_aliases.ContactId.md)[];  }\>
 
 ___
 
@@ -1812,9 +2160,9 @@ ___
 
 ### getUnreadMessages
 
-▸ **getUnreadMessages**(`includeMe`, `includeNotifications`, `use_unread_count`): `Promise`<[`SingleChat`](/api/interfaces/api_model_chat.SingleChat.md) & { `messages`: [`Message`](/api/interfaces/api_model_message.Message.md)[]  } & [`GroupChat`](/api/interfaces/api_model_chat.GroupChat.md) & { `messages`: [`Message`](/api/interfaces/api_model_message.Message.md)[]  }\>
+▸ **getUnreadMessages**(`includeMe`, `includeNotifications`, `use_unread_count`): `Promise`<[`SingleChat`](/api/interfaces/api_model_chat.SingleChat.md) & { `messages`: [`Message`](/api/interfaces/api_model_message.Message.md)[]  }[] & [`GroupChat`](/api/interfaces/api_model_chat.GroupChat.md) & { `messages`: [`Message`](/api/interfaces/api_model_message.Message.md)[]  }[]\>
 
-Retrieves all undread Messages
+Retrieves all unread Messages
 
 #### Parameters
 
@@ -1826,7 +2174,7 @@ Retrieves all undread Messages
 
 #### Returns
 
-`Promise`<[`SingleChat`](/api/interfaces/api_model_chat.SingleChat.md) & { `messages`: [`Message`](/api/interfaces/api_model_message.Message.md)[]  } & [`GroupChat`](/api/interfaces/api_model_chat.GroupChat.md) & { `messages`: [`Message`](/api/interfaces/api_model_message.Message.md)[]  }\>
+`Promise`<[`SingleChat`](/api/interfaces/api_model_chat.SingleChat.md) & { `messages`: [`Message`](/api/interfaces/api_model_message.Message.md)[]  }[] & [`GroupChat`](/api/interfaces/api_model_chat.GroupChat.md) & { `messages`: [`Message`](/api/interfaces/api_model_message.Message.md)[]  }[]\>
 
 any
 
@@ -2062,6 +2410,24 @@ Joins a group via the invite link, code, or message
 
 ___
 
+### joinWebBeta
+
+▸ **joinWebBeta**(`join`): `Promise`<`boolean`\>
+
+Join or leave the wa web beta program. Will return true of operation was successful.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `join` | `boolean` | true to join the beta, false to leave |
+
+#### Returns
+
+`Promise`<`boolean`\>
+
+___
+
 ### kill
 
 ▸ **kill**(`reason?`): `Promise`<`boolean`\>
@@ -2271,7 +2637,7 @@ ___
 
 ### middleware
 
-▸ **middleware**(`useSessionIdInPath?`): (`req`: `Request`<`ParamsDictionary`, `any`, `any`, `ParsedQs`, `Record`<`string`, `any`\>\>, `res`: `Response`<`any`, `Record`<`string`, `any`\>\>, `next`: `NextFunction`) => `Promise`<`any`\>
+▸ **middleware**(`useSessionIdInPath?`, `PORT?`): (`req`: `Request`<`ParamsDictionary`, `any`, `any`, `ParsedQs`, `Record`<`string`, `any`\>\>, `res`: `Response`<`any`, `Record`<`string`, `any`\>\>, `next`: `NextFunction`) => `Promise`<`any`\>
 
 This exposes a simple express middlware that will allow users to quickly boot up an api based off this client. Checkout demo/index.ts for an example
 How to use the middleware:
@@ -2351,6 +2717,7 @@ axios.post('localhost:8082', {
 | Name | Type | Default value | Description |
 | :------ | :------ | :------ | :------ |
 | `useSessionIdInPath` | `boolean` | `false` | boolean Set this to true if you want to keep each session in it's own path.  For example, if you have a session with id  `host` if you set useSessionIdInPath to true, then all requests will need to be prefixed with the path `host`. E.g `localhost:8082/sendText` becomes `localhost:8082/host/sendText` |
+| `PORT?` | `number` | `undefined` | - |
 
 #### Returns
 
@@ -2466,6 +2833,14 @@ ___
 
 ▸ **postImageStatus**(`data`, `caption`): `Promise`<`string` \| `boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
 
+**`Deprecated`**
+
+:::danger
+
+Status features are broken for now. Please join our discord community for updates.
+
+:::
+
 [REQUIRES AN IMAGE STORY LICENSE-KEY](https://gum.co/open-wa)
 
 Posts an image story.
@@ -2488,6 +2863,14 @@ ___
 ### postTextStatus
 
 ▸ **postTextStatus**(`text`, `textRgba`, `backgroundRgba`, `font`): `Promise`<`string` \| `boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
+
+**`Deprecated`**
+
+:::danger
+
+Status features are broken for now. Please join our discord community for updates.
+
+:::
 
 [REQUIRES A TEXT STORY LICENSE-KEY](https://gum.co/open-wa)
 
@@ -2513,6 +2896,14 @@ ___
 ### postVideoStatus
 
 ▸ **postVideoStatus**(`data`, `caption`): `Promise`<`string` \| `boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
+
+**`Deprecated`**
+
+:::danger
+
+Status features are broken for now. Please join our discord community for updates.
+
+:::
 
 [REQUIRES A VIDEO STORY LICENSE-KEY](https://gum.co/open-wa)
 
@@ -2632,6 +3023,28 @@ The client can now automatically handle webhooks. Use this method to register we
 `Promise`<``false`` \| [`Webhook`](/api/interfaces/api_model_config.Webhook.md)\>
 
 A webhook object. This will include a webhook ID and an array of all successfully registered Listeners.
+
+___
+
+### rejectGroupJoinRequest
+
+▸ **rejectGroupJoinRequest**(`groupChatId`, `contactId`): `Promise`<`string` \| `boolean`\>
+
+Rejects a group join request
+ *
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `groupChatId` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) | The group chat id  * |
+| `contactId` | [`ContactId`](/api/types/api_model_aliases.ContactId.md) | The contact id of the person who is requesting to join the group  * |
+
+#### Returns
+
+`Promise`<`string` \| `boolean`\>
+
+`Promise<boolean>`
 
 ___
 
@@ -2798,6 +3211,25 @@ Report a contact for spam, block them and attempt to clear chat.
 
 ___
 
+### resizePage
+
+▸ **resizePage**(`width?`, `height?`): `Promise`<`boolean`\>
+
+Easily resize page on the fly. Useful if you're showing screenshots in a web-app.
+
+#### Parameters
+
+| Name | Type | Default value |
+| :------ | :------ | :------ |
+| `width` | `number` | `1920` |
+| `height` | `number` | `1080` |
+
+#### Returns
+
+`Promise`<`boolean`\>
+
+___
+
 ### revokeGroupInviteLink
 
 ▸ **revokeGroupInviteLink**(`chatId`): `Promise`<`string` \| `boolean`\>
@@ -2818,22 +3250,25 @@ Revokes the current invite link for a group chat. Any previous links will stop w
 
 ___
 
-### sendAdvancedButtons <div class="label license insiders">insiders</div>
+### sendAdvancedButtons
 
 ▸ **sendAdvancedButtons**(`to`, `body`, `buttons`, `text`, `footer`, `filename`): `Promise`<`boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
 
-:::license May require insiders license
-Use this link to get the [correct license](https://gum.co/open-wa?wanted=true&tier=Insiders%20Program).
+**`Deprecated`**
+
+:::danger
+
+Template messages (URL & CALL buttons) are broken for the foreseeable future. Please DO NOT get a license solely for access to URL or CALL buttons. They are no longer reliable due to recent changes at WA.
+WA BIZ accounts CANNOT send buttons. This is a WA limitation. DO NOT get a license solely for access to buttons on wa business accounts.
+
+THIS IS NOT WORKING FOR GROUPS YET.
+
+ADVANCED ARE DEPRECATED FOR NOW. DO NOT GET A LICENSE TO USE BUTTONS.
+
 :::
 
 Send advanced buttons with media body. This is an insiders feature for MD accounts.
-
-:::caution
-
- Button messages are being progressively handicapped by recipient mobile devices. Some recipients may not see some types of button messages even though their devices will receive them.
-
-:::
-
+ 
 Body can be location, image, video or document. Buttons can be quick reply, url or call buttons.
 
 #### Parameters
@@ -2894,12 +3329,19 @@ Note this is a bit of hack on top of a location message. During testing it is sh
 
 ___
 
-### sendButtons <div class="label license insiders">insiders</div>
+### sendButtons
 
 ▸ **sendButtons**(`to`, `body`, `buttons`, `title?`, `footer?`): `Promise`<`boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
 
-:::license May require insiders license
-Use this link to get the [correct license](https://gum.co/open-wa?wanted=true&tier=Insiders%20Program).
+**`Deprecated`**
+
+:::danger
+
+WA BIZ accounts CANNOT send buttons. This is a WA limitation. DO NOT get a license solely for access to buttons on wa business accounts.
+THIS IS NOT WORKING FOR GROUPS YET.
+
+BUTTONS ARE DEPRECATED FOR NOW. DO NOT GET A LICENSE TO USE BUTTONS.
+
 :::
 
 Send generic quick reply buttons. This is an insiders feature for MD accounts.
@@ -2991,7 +3433,7 @@ ___
 
 ### sendFile
 
-▸ **sendFile**(`to`, `file`, `filename`, `caption`, `quotedMsgId?`, `waitForId?`, `ptt?`, `withoutPreview?`, `hideTags?`, `viewOnce?`): `Promise`<`boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
+▸ **sendFile**(`to`, `file`, `filename`, `caption`, `quotedMsgId?`, `waitForId?`, `ptt?`, `withoutPreview?`, `hideTags?`, `viewOnce?`, `requestConfig?`): `Promise`<`boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
 
 Sends a file to given chat, with caption or not, using base64. This is exactly the same as sendImage
 
@@ -3013,6 +3455,7 @@ If you want a specific filetype, then explcitly select the correct mime-type fro
 | `withoutPreview?` | `boolean` | boolean default: false set this to true if you want to send the file without a preview (i.e as a file). This is useful for preventing auto downloads on recipient devices. |
 | `hideTags?` | `boolean` | boolean default: false [INSIDERS] set this to try silent tag someone in the caption |
 | `viewOnce?` | `boolean` | - |
+| `requestConfig?` | `any` | - |
 
 #### Returns
 
@@ -3091,7 +3534,7 @@ ___
 
 ### sendImage
 
-▸ **sendImage**(`to`, `file`, `filename`, `caption`, `quotedMsgId?`, `waitForId?`, `ptt?`, `withoutPreview?`, `hideTags?`, `viewOnce?`): `Promise`<`boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
+▸ **sendImage**(`to`, `file`, `filename`, `caption`, `quotedMsgId?`, `waitForId?`, `ptt?`, `withoutPreview?`, `hideTags?`, `viewOnce?`, `requestConfig?`): `Promise`<`boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
 
 Sends a image to given chat, with caption or not, using base64
 
@@ -3109,6 +3552,7 @@ Sends a image to given chat, with caption or not, using base64
 | `withoutPreview?` | `boolean` | - |
 | `hideTags?` | `boolean` | boolean default: false [INSIDERS] set this to try silent tag someone in the caption |
 | `viewOnce?` | `boolean` | - |
+| `requestConfig?` | `any` | - |
 
 #### Returns
 
@@ -3207,12 +3651,19 @@ Automatically sends a link with the auto generated link preview. You can also ad
 
 ___
 
-### sendListMessage <div class="label license insiders">insiders</div>
+### sendListMessage
 
 ▸ **sendListMessage**(`to`, `sections`, `title`, `description`, `actionText`): `Promise`<`boolean` \| [`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
 
-:::license May require insiders license
-Use this link to get the [correct license](https://gum.co/open-wa?wanted=true&tier=Insiders%20Program).
+**`Deprecated`**
+
+:::danger
+
+It is not currently possible to send a listmessage to a group chat. This is a WA limitation.
+Please DO NOT get a license solely for access to list messages in group chats.
+
+LIST MESSAGES ARE DEPRECATED TILL FURTHER NOTICE
+
 :::
 
 Send a list message. This will not work when being sent from business accounts!
@@ -3348,6 +3799,28 @@ Sends a payment request message to given chat
 
 ___
 
+### sendPoll
+
+▸ **sendPoll**(`to`, `name`, `options`, `quotedMsgId?`, `allowMultiSelect?`): `Promise`<[`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
+
+Send a poll to a group chat
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `to` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) | chat id - a group chat is required |
+| `name` | `string` | the name of the poll |
+| `options` | `string`[] | an array of poll options |
+| `quotedMsgId?` | [`MessageId`](/api/types/api_model_aliases.MessageId.md) | A message to quote when sending the poll |
+| `allowMultiSelect?` | `boolean` | Whether or not to allow multiple selections. default false |
+
+#### Returns
+
+`Promise`<[`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
+
+___
+
 ### sendProduct <div class="label license insiders">insiders</div>
 
 ▸ **sendProduct**(`chatId`, `productId`): `Promise`<[`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
@@ -3375,7 +3848,7 @@ ___
 
 ### sendPtt
 
-▸ **sendPtt**(`to`, `file`, `quotedMsgId`): `Promise`<[`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
+▸ **sendPtt**(`to`, `file`, `quotedMsgId?`): `Promise`<[`MessageId`](/api/types/api_model_aliases.MessageId.md)\>
 
 Attempts to send a file as a voice note. Useful if you want to send an mp3 file.
 
@@ -3385,7 +3858,7 @@ Attempts to send a file as a voice note. Useful if you want to send an mp3 file.
 | :------ | :------ | :------ |
 | `to` | [`ChatId`](/api/types/api_model_aliases.ChatId.md) | chat id `xxxxx@c.us` |
 | `file` | [`AdvancedFile`](/api/types/api_model_aliases.AdvancedFile.md) | base64 data:image/xxx;base64,xxx or the path of the file you want to send. |
-| `quotedMsgId` | [`MessageId`](/api/types/api_model_aliases.MessageId.md) | string true_0000000000@c.us_JHB2HB23HJ4B234HJB to send as a reply to a message |
+| `quotedMsgId?` | [`MessageId`](/api/types/api_model_aliases.MessageId.md) | string true_0000000000@c.us_JHB2HB23HJ4B234HJB to send as a reply to a message |
 
 #### Returns
 
@@ -3714,6 +4187,27 @@ Sets the chat state
 
 ___
 
+### setGroupApprovalMode
+
+▸ **setGroupApprovalMode**(`groupId`, `requireApproval`): `Promise`<`boolean`\>
+
+Turn on or off the approval requirement for new members to join a group
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `groupId` | [`GroupChatId`](/api/types/api_model_aliases.GroupChatId.md) | '0000000000-00000000@g.us' the group id. |
+| `requireApproval` | `boolean` | set to true to turn on the approval requirement, false to turn off |
+
+#### Returns
+
+`Promise`<`boolean`\>
+
+boolean true if action completed successfully.
+
+___
+
 ### setGroupDescription
 
 ▸ **setGroupDescription**(`groupId`, `description`): `Promise`<`boolean`\>
@@ -4031,6 +4525,14 @@ ___
 
 ▸ **testButtons**(`chatId`): `Promise`<`any`\>
 
+**`Deprecated`**
+
+:::danger
+
+Buttons are broken for the foreseeable future. Please DO NOT get a license solely for access to buttons. They are no longer reliable due to recent changes at WA.
+
+:::
+
 Test the button commands on MD accounts with an insiders key. This is a temporary feature to help fix issue #2658
 
 #### Parameters
@@ -4222,7 +4724,15 @@ ___
 
 ▸ **onBattery**(`fn`): `Promise`<`boolean` \| `Listener`\>
 
+**`Deprecated`**
+
 Listens to battery changes
+
+:::caution
+
+ This will most likely not work with multi-device mode (the only remaining mode) since the session is no longer connected to the phone but directly to WA servers.
+
+:::
 
 **`Fires`**
 
@@ -4430,6 +4940,46 @@ Listens to add and remove events on Groups on a global level. It is memory effic
 
 ___
 
+### onGroupApprovalRequest
+
+▸ **onGroupApprovalRequest**(`fn`): `Promise`<`boolean` \| `Listener`\>
+
+Listents to group approval requests. Emits a message object. Use it with `message.isGroupApprovalRequest()` to check if it is a group approval request.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `fn` | (`groupApprovalRequestMessage`: [`Message`](/api/interfaces/api_model_message.Message.md)) => `void` | callback function that handles a Message as the first and only parameter. |
+
+#### Returns
+
+`Promise`<`boolean` \| `Listener`\>
+
+`true` if the callback was registered
+
+___
+
+### onGroupChange
+
+▸ **onGroupChange**(`fn`): `Promise`<`boolean` \| `Listener`\>
+
+Listens to all group (gp2) events. This can be useful if you want to catch when a group title, subject or picture is changed.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `fn` | (`genericGroupChangeEvent`: [`GenericGroupChangeEvent`](/api/interfaces/api_model_group_metadata.GenericGroupChangeEvent.md)) => `void` | callback function that handles a ParticipantChangedEventModel as the first and only parameter. |
+
+#### Returns
+
+`Promise`<`boolean` \| `Listener`\>
+
+`true` if the callback was registered
+
+___
+
 ### onIncomingCall
 
 ▸ **onIncomingCall**(`fn`): `Promise`<`boolean` \| `Listener`\>
@@ -4609,6 +5159,28 @@ boolean true if plugged, false if unplugged
 
 ___
 
+### onPollVote
+
+▸ **onPollVote**(`fn`): `Promise`<`boolean` \| `Listener`\>
+
+Listens to poll vote events
+
+**`Fires`**
+
+PollData
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `fn` | (`pollDate`: [`PollData`](/api/interfaces/api_model_message.PollData.md)) => `void` | callback |
+
+#### Returns
+
+`Promise`<`boolean` \| `Listener`\>
+
+___
+
 ### onReaction <div class="label license insiders">insiders</div>
 
 ▸ **onReaction**(`fn`): `Promise`<`boolean` \| `Listener`\>
@@ -4681,11 +5253,14 @@ STATE observable sream of states
 
 ___
 
-### onStory
+### onStory <div class="label license restricted">restricted</div>
 
 ▸ **onStory**(`fn`): `Promise`<`boolean` \| `Listener`\>
 
-Requires a Story License Key 
+:::license May require restricted license
+Use this link to get the [correct license](https://gum.co/open-wa?wanted=true&tier=1%20Restricted%20License).
+:::
+
 Listens to when a contact posts a new story.
 
 **`Fires`**

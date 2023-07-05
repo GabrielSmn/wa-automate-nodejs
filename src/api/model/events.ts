@@ -48,6 +48,10 @@
      */
     GlobalParticipantsChanged = 'onGlobalParticipantsChanged',
     /**
+     * Represents [[onGroupApprovalRequest]]
+     */
+    GroupApprovalRequest = 'onGroupApprovalRequest',
+    /**
      * Represents [[onChatState]]
      */
     ChatState = 'onChatState',
@@ -70,6 +74,10 @@
      * Represents [[onButton]]
      */
     Button = 'onButton',
+    /**
+     * Represents [[onButton]]
+     */
+    PollVote = 'onPollVote',
     /**
      * Represents [[onBroadcast]]
      */
@@ -108,4 +116,9 @@
      * Represents [[onReaction]]
      */
     Reaction = 'onReaction',
+    /**
+     * Requires licence
+     * Represents [[onGroupChange]]
+     */
+    GroupChange = 'onGroupChange'
   }
